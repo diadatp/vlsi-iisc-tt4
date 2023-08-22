@@ -28,7 +28,22 @@ documentation:
 
 # Longer description of how the project works. You can use standard markdown format.
   how_it_works: |
-      Explain how your project works
+  Description: 8 Independent Tonal Frequencies and 2 Pre-defined Sets
+  Introduction: Application-Specific Integrated Circuits (ASICs) are custom-designed integrated circuits tailored to perform specific tasks efficiently. In this ASIC, we will generate eight independent tonal frequencies and two predefined sets of frequencies. This ASIC features ten input switches for selecting outputs, a clock input, and a reset mechanism.
+  Input Configuration:
+  • Switch Inputs: The ASIC is equipped with ten input switches, allowing users to select the desired outputs. These switches serve as a way to choose which tones or predefined frequency sentences are active.
+  Frequency Control Logic:
+  • Input Multiplexing: The input switches control which of the 8 independent tonal frequencies or 2 predefined frequency sentences should be active. The selected configuration is processed for further frequency generation.
+  Tone Generation:
+  • Clock generation: To generate tonal frequencies, the chip employs 1 independent clock. The PLL generates a specific tone, the frequency of which can be configured based on the input switch settings.
+  • Frequency Sentence Generator: The ASIC also includes a frequency sentence generator for the predefined sets. This generates sequences of frequencies based on two defined sentences. These sentences are stored in the chip's memory and can be selected via input switches.
+  Output Channels:
+  • Eight Independent Outputs: The ASIC has eight distinct output channels, each corresponding to one of the eight tonal frequencies.
+  • Two Predefined Sentence Outputs: Additionally, the chip has two outputs specifically dedicated to the predefined frequency sentences. These outputs provide the configured sequences of frequencies as per user selection.
+  Clock and Reset:
+  • Clock Input: The ASIC requires an external clock signal to synchronize its operations. This clock signal ensures that all generated tones and sentences are coherent and correctly timed.
+  • Reset Mechanism: The chip features a reset input, allowing you to reset its internal state and restart the frequency generation process if needed.
+
 
 # Instructions on how someone could test your project, include things like what buttons do what and how to set the clock if needed
   how_to_test:  |
