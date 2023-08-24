@@ -1,3 +1,5 @@
+`default_nettype none
+
 module tt_um_simplepiano (
     input  wire [7:0] ui_in,    // Dedicated inputs
     output wire [7:0] uo_out,   // Dedicated outputs
@@ -18,8 +20,18 @@ module tt_um_simplepiano (
       .tone(uo_out[0])
   );
 
-  assign uo_out  = 8'b0000_0000;
+  tone_gen #(
+      .MAX_COUNT(42),
+      .WIDTH_COUNTER(10)
+  ) tone_gen2 (
+      .clk (clk),
+      .rst (~rst_n),
+      .tone(uo_out[1])
+  );
+
+  assign uo_out[7:2] = 6'b0000_00;
+
   assign uio_out = 8'b0000_0000;
-  assign uio_oe  = 8'b1111_1111;
+  assign uio_oe = 8'b1111_1111;
 
 endmodule
