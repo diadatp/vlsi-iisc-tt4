@@ -11,6 +11,8 @@ module tt_um_simplepiano (
     input  wire       rst_n     // reset_n - low to reset
 );
 
+  // two instances of tone_gen set to output on two different output ports
+  // uo_out[0] and uo_out[1] respectively 
   tone_gen #(
       .MAX_COUNT(42),
       .WIDTH_COUNTER(10)
@@ -29,9 +31,12 @@ module tt_um_simplepiano (
       .tone(uo_out[1])
   );
 
+  // drive the unused signals so that the synthesis tool stops complaining
   assign uo_out[7:2] = 6'b0000_00;
 
-  assign uio_out = 8'b0000_0000;
+
+  // set the bidir signals to output mode and drive all of them with 0 for now
   assign uio_oe = 8'b1111_1111;
+  assign uio_out = 8'b0000_0000;
 
 endmodule
