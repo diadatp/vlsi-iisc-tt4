@@ -10,12 +10,14 @@ module tt_um_simplepiano (
 );
 
   tone_gen #(
-      .MAX_COUNT(MAX_COUNT),
-      .WIDTH_COUNTER(WIDTH_COUNTER)
+      .MAX_COUNT(42),
+      .WIDTH_COUNTER(10)
   ) tone_gen1 (
       .clk (clk),
       .rst (~rst_n),
       .tone(uo_out[0])
   );
+
+  assign uio_oe = 8'b1111_1111;
 
 endmodule
