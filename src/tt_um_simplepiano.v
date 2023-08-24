@@ -18,6 +18,8 @@ module tt_um_simplepiano (
       .tone(uo_out[0])
   );
 
-  assign uio_oe = 8'b1111_1111;
+  assign uo_out  = 8'b0000_0000;
+  assign uio_out = 8'b0000_0000;
+  assign uio_oe  = 8'b1111_1111;
 
 endmodule
