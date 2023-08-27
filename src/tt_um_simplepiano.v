@@ -11,32 +11,31 @@ module tt_um_simplepiano (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-  // two instances of tone_gen set to output on two different output ports
-  // uo_out[0] and uo_out[1] respectively 
-  tone_gen #(
-      .MAX_COUNT(42),
-      .WIDTH_COUNTER(10)
-  ) tone_gen1 (
-      .clk (clk),
-      .rst (~rst_n),
-      .tone(uo_out[0])
-  );
+  // 12 nets will form an octave from
+  // the output of the tone generators
+  wire [11:0] notes;
 
-  tone_gen #(
-      .MAX_COUNT(42),
-      .WIDTH_COUNTER(10)
-  ) tone_gen2 (
-      .clk (clk),
-      .rst (~rst_n),
-      .tone(uo_out[1])
-  );
+  // 12 notes from the 4th octave, C to B
+  // notes are calculated wrt A4 at 440Hz
+  genvar i;
+  generate
+    for (i = 0; i < 12; i = i + 1) begin
+      tone_gen #(
+          .MAX_COUNT(440 * $pow($pow(2, 1.0 / 12), i - 9)),
+          .WIDTH_COUNTER(10)
+      ) note (
+          .clk (clk),
+          .rst (~rst_n),
+          .tone(notes[i])
+      );
+    end
+  endgenerate
 
-  // drive the unused signals so that the synthesis tool stops complaining
-  assign uo_out[7:2] = 6'b0000_00;
+  assign uo_out = notes[7:0];
+  assign uio_out[3:0] = notes[11:8];
 
-
-  // set the bidir signals to output mode and drive all of them with 0 for now
+  // set the bidir signals to output mode and drive unused wires with 0 for now
   assign uio_oe = 8'b1111_1111;
-  assign uio_out = 8'b0000_0000;
+  assign uio_out[7:4] = 4'b0000;
 
 endmodule
