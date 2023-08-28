@@ -28,20 +28,20 @@ documentation:
   description:  "The input clock is divided into a series of frequencies to mimic a piano having only 12 keys of one octave. User can choose from a choice of 3-5 octaves. Additionally, few pre-defined tunes have been included using RTTTL logic"      # Short description of what your project does
 
 # Longer description of how the project works. You can use standard markdown format.
-how_it_works: 
-  Description:  "Twelve Independent Tonal Frequencies and Two Pre-defined Songs"
-  Introduction: "Application-Specific Integrated Circuits (ASICs) are custom-designed integrated circuits tailored to perform specific tasks efficiently. In this ASIC, we will generate twelve independent tonal frequencies and a two predefined strings(songs) of frequencies (RTTTL). This ASIC features sixteen input switches for selecting desired notes, a clock input, a reset mechanism and pre-defined tunes."
-  Switch Inputs: "The ASIC is equipped with sixteen - eighteen input switches, allowing users to select the desired outputs. These switches serve as a way to choose which tones or predefined frequency sentences are active."
-  Input Multiplexing: "The input switches control which of the 12 independent tonal frequencies/notes and 2-4 predefined frequency sentences should be active. The selected configuration is processed for further frequency generation."
-  Tone Generation:
-    Clock generation: "To generate tonal frequencies/notes, the chip employs 1 independent clock. The PLL generates a specific clock frequency, which can be configured based on the input switch settings."
-    Song Generator: "The ASIC includes a frequency string generator on top of the  for the predefined sets. This generates sequences of frequencies based on two defined sentences. These sentences are stored in the chip's memory and can be selected via input switches."
-  Output Channels:
-    Twelve Independent Outputs: "The ASIC has twelve distinct output channels, each corresponding to one of the twelve frequencies/notes."
-    Two Predefined Sentence Outputs: "Additionally, the chip has two outputs specifically dedicated to the predefined frequency sentences called songs. These outputs provide the configured sequences of frequencies as per user selection."
-  Clock and Reset:
-    Clock Input: "The ASIC requires an external clock signal of 1Mhz to synchronize its operations. This clock signal ensures that all generated tones and sentences are coherent and correctly timed."
-    Reset Mechanism: "The chip features a reset input, allowing you to reset its internal state and restart the frequency generation process if needed."
+how_it_works: |
+  Description:  Twelve Independent Tonal Frequencies and Two Pre-defined set of frequencies/Songs\n
+  Introduction: Application-Specific Integrated Circuits (ASICs) are custom-designed integrated circuits tailored to perform specific tasks efficiently. In this ASIC, we will generate twelve independent tonal frequencies and two predefined set of frequencies based on RTTTL.\n This ASIC features sixteen input switches for selecting twelve desired notes, a clock input, a reset mechanism and options for pre-defined tunes.\n
+  Switch Inputs: The ASIC is equipped with sixteen - eighteen input switches, allowing users to select the desired outputs. These switches serve as a way to choose which tones or predefined frequency sentences are active.\n
+  Input Multiplexing: The input switches control which of the 12 independent tonal frequencies/notes and 2-4 predefined frequency sentences should be active. The selected configuration is processed for further frequency generation.\n
+  Tone Generation:\n
+    Clock generation: To generate tonal frequencies/notes, the chip employs 1 independent clock. The PLL generates a specific clock frequency, which can be configured based on the input switch settings.\n
+    Song Generator: The ASIC includes a frequency string generator on top of the  for the predefined sets. This generates sequences of frequencies based on two defined sentences. These sentences are stored in the chip's memory and can be selected via input switches.\n
+  Output Channels:\n
+    Twelve Independent Outputs: The ASIC has twelve distinct output channels, each corresponding to one of the twelve frequencies/notes.\n
+    Two Predefined Sentence Outputs: Additionally, the chip has two outputs specifically dedicated to the predefined frequency sentences called songs. These outputs provide the configured sequences of frequencies as per user selection.\n
+  Clock and Reset:\n
+    Clock Input: The ASIC requires an external clock signal of 1Mhz to synchronize its operations. This clock signal ensures that all generated tones and sentences are coherent and correctly timed.\n
+    Reset Mechanism: The chip features a reset input, allowing you to reset its internal state and restart the frequency generation process if needed.\n\n
 
 
 # Instructions on how someone could test your project, include things like what buttons do what and how to set the clock if needed
