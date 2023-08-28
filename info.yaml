@@ -25,7 +25,9 @@ documentation:
   author:       "Sarthak Raheja and Bittu N"      # Your name
   title:        "Simple Piano"      # Project title
   language:     "Verilog" # other examples include Verilog, Amaranth, VHDL, etc
-  description:  "The input clock is divided into a series of frequencies to mimic a piano having only 12 keys of one octave. User can choose from a choice of 3-5 octaves. Additionally, few pre-defined tunes have been included using RTTTL logic"      # Short description of what your project does
+  description:  | 
+  The input clock is divided into a series of frequencies to mimic a piano having only 12 keys of one octave. User can choose from a choice of 3-5 octaves. Additionally, few pre-defined tunes have been included using RTTTL logic\n      
+# Short description of what your project does
 
 # Longer description of how the project works. You can use standard markdown format.
 how_it_works: |
