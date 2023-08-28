@@ -12,24 +12,24 @@ module note_lut (
 
   // the lut is formed by assuming a clock frequency of 1MHz
   // div is the clock dividier required to geenrate the required frequency
-  // divs = [int(1e6 / (16.35 * (2**(i / 12)))) for i in range(12)]
+  // divs = [str(int(1e6 / (16.35 * (2 * 2**(i / 12))))) for i in range(12)]
   // print("\n".join(divs)) <- not working TODO
 
   always @(posedge clk) begin
     case (note)
-      4'h0: div_pre = 16'd61162;
-      4'h1: div_pre = 16'd57729;
-      4'h2: div_pre = 16'd54489;
-      4'h3: div_pre = 16'd51430;
-      4'h4: div_pre = 16'd48544;
-      4'h5: div_pre = 16'd45819;
-      4'h6: div_pre = 16'd43248;
-      4'h7: div_pre = 16'd40820;
-      4'h8: div_pre = 16'd38529;
-      4'h9: div_pre = 16'd36367;
-      4'hA: div_pre = 16'd34326;
-      4'hB: div_pre = 16'd32399;
-      default: div_pre = 16'd3822;
+      4'h0: div_pre = 16'd30581;
+      4'h1: div_pre = 16'd28864;
+      4'h2: div_pre = 16'd27244;
+      4'h3: div_pre = 16'd25715;
+      4'h4: div_pre = 16'd24272;
+      4'h5: div_pre = 16'd22909;
+      4'h6: div_pre = 16'd21624;
+      4'h7: div_pre = 16'd20410;
+      4'h8: div_pre = 16'd19264;
+      4'h9: div_pre = 16'd18183;
+      4'hA: div_pre = 16'd17163;
+      4'hB: div_pre = 16'd16199;
+      default: div_pre = 16'd0;
     endcase
   end
 
