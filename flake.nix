@@ -16,6 +16,7 @@
           python3Packages.pip
           python3Packages.scipy
           verible
+          verilator
           verilog
           yosys
         ];
