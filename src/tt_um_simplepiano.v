@@ -23,20 +23,20 @@ module tt_um_simplepiano (
 
   reg [3:0] note_decoded;
   always @(posedge clk) begin
-    casex (user_keys)
-      12'b1xxx_xxxx_xxxx: note_decoded = 4'd0;
-      12'b01xx_xxxx_xxxx: note_decoded = 4'd1;
-      12'b001x_xxxx_xxxx: note_decoded = 4'd2;
-      12'b0001_xxxx_xxxx: note_decoded = 4'd3;
-      12'b0000_1xxx_xxxx: note_decoded = 4'd4;
-      12'b0000_01xx_xxxx: note_decoded = 4'd5;
-      12'b0000_001x_xxxx: note_decoded = 4'd6;
-      12'b0000_0001_xxxx: note_decoded = 4'd7;
-      12'b0000_0000_1xxx: note_decoded = 4'd8;
-      12'b0000_0000_01xx: note_decoded = 4'd9;
-      12'b0000_0000_001x: note_decoded = 4'd10;
-      12'b0000_0000_0001: note_decoded = 4'd11;
-      12'b0000_0000_0000: note_decoded = 4'b1111;
+    casez (user_keys)
+      12'b1???_????_????: note_decoded <= 4'd0;
+      12'b01??_????_????: note_decoded <= 4'd1;
+      12'b001?_????_????: note_decoded <= 4'd2;
+      12'b0001_????_????: note_decoded <= 4'd3;
+      12'b0000_1???_????: note_decoded <= 4'd4;
+      12'b0000_01??_????: note_decoded <= 4'd5;
+      12'b0000_001?_????: note_decoded <= 4'd6;
+      12'b0000_0001_????: note_decoded <= 4'd7;
+      12'b0000_0000_1???: note_decoded <= 4'd8;
+      12'b0000_0000_01??: note_decoded <= 4'd9;
+      12'b0000_0000_001?: note_decoded <= 4'd10;
+      12'b0000_0000_0001: note_decoded <= 4'd11;
+      12'b0000_0000_0000: note_decoded <= 4'b1111;
     endcase
   end
 
@@ -61,6 +61,7 @@ module tt_um_simplepiano (
   // endgenerate
 
 
+  wire note;
 
   wire [15:0] div;
 
@@ -76,14 +77,14 @@ module tt_um_simplepiano (
       .WIDTH_COUNTER(16)
   ) tone_gen_1 (
       .clk (clk),
-      .rst (~rst_n),
+      .rstn(rst_n),
       .div (div),
-      .tone(uo_out[0])
+      .tone(note)
   );
 
   assign uo_out[7:1] = 0;
 
-  // set the bidir signals to output mode and drive unused wires with 0 for now
+  assign uo_out[0] = (ena == 1) ? {note} : 0;
   assign uio_oe = 8'b1111_0000;
   assign uio_out = 0;
 
