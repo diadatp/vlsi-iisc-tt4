@@ -7,7 +7,7 @@ module tb ();
 
   reg [11:0] user_keys;
   assign {uio_in[3:0], ui_in} = user_keys;
-  assign uio_in[7:4] = 4'd4;
+  //assign uio_in[7:4] = 4'd4;
   reg [3:0] octave;
   assign uio_in[7:4] = octave;
 
@@ -16,13 +16,17 @@ module tb ();
   initial begin
     //  assert reset for one clock cycle
     rst_n = 1'b0;
+    #10 rst_n = 1'b1;
+    
     user_keys = 12'b1000_0000_0000;
 
     for (i = 0; i < 9; i = i + 1) begin
+      user_keys = 12'b1000_0000_0000;
       octave = i;
       for (j = 0; j < 12; j = j + 1) begin
-        user_keys = user_keys >> 1;
+//        user_keys = user_keys >> 1;
         #4000;
+        user_keys = user_keys >> 1;
       end
     end
 
