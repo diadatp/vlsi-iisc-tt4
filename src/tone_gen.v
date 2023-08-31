@@ -7,17 +7,28 @@ module tone_gen #(
     parameter WIDTH_COUNTER = 10
 ) (
     input clk,
-    input rst,
+    input rstn,
     input [WIDTH_COUNTER-1:0] div,
     output reg tone
 );
 
+  reg [WIDTH_COUNTER-1:0] div_hold;
+  always @(posedge clk) begin
+    if (!rstn) begin
+      div_hold <= 0;
+    end else begin
+      div_hold <= div;
+    end
+  end
+
   reg [WIDTH_COUNTER-1:0] count;
 
   always @(posedge clk) begin
-    if (rst) begin
+    if (!rstn) begin
       count <= 0;
       tone  <= 0;
+    end else if (div !== div_hold) begin
+      count <= 1;
     end else if (count == div) begin
       count <= 1;
       tone  <= ~tone;

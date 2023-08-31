@@ -1,4 +1,4 @@
-`default_nettype none `timescale 100ns / 1ps
+`default_nettype none `timescale 100ns / 10ns
 
 module tb ();
 
@@ -7,30 +7,40 @@ module tb ();
 
   reg [11:0] user_keys;
   assign {uio_in[3:0], ui_in} = user_keys;
-  assign uio_in[7:4] = 4'd4;
+
   reg [3:0] octave;
   assign uio_in[7:4] = octave;
 
   integer i;
   integer j;
   initial begin
+    octave = 0;
+    user_keys = 12'b0000_0000_0000;
+
     //  assert reset for one clock cycle
     rst_n = 1'b0;
-    user_keys = 12'b1000_0000_0000;
+    ena = 1'b0;
+    #10;
+    rst_n = 1'b1;
+    ena   = 1'b1;
 
     for (i = 0; i < 9; i = i + 1) begin
       octave = i;
+      user_keys = 12'b1000_0000_0000;
+      user_keys = 12'b0000_1111_1111;
       for (j = 0; j < 12; j = j + 1) begin
+        #100000;
         user_keys = user_keys >> 1;
-        #4000;
       end
     end
 
-    #10 rst_n = 1'b1;
-    #40 #100 user_keys = 12'b1010_0000_0000;
-    #40 #100 user_keys = 12'b0001_0001_0000;
-    // wait for 1000ms
-    #1000000 $finish;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000;
+
+    #40000 $finish;
+
+    // wait for 100ms
+    // #1000000 $finish;
   end
 
   initial begin
