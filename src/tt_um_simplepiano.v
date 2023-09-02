@@ -11,7 +11,7 @@ module tt_um_simplepiano (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-  localparam STAGES = 4;
+  localparam STAGES = 2;
 
   reg [11:0] keys;
   reg [ 3:0] octave;
