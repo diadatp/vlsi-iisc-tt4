@@ -54,7 +54,7 @@ module tt_um_simplepiano (
     end
   endgenerate
 
-  assign uo_out[8:STAGES] = 0;
+  assign uo_out[7:STAGES] = 0;
   assign uo_out[STAGES-1:0] = (ena == 1) ? {note} : 0;
   assign uio_oe = 8'b1111_0000;
   assign uio_out = 8'b0000_0000;
