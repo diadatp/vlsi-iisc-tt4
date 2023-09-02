@@ -29,6 +29,9 @@ module tone_gen #(
       tone  <= 0;
     end else if (div !== div_hold) begin
       count <= 1;
+    end else if (div == 0) begin
+      count <= 1;
+      tone  <= 0;
     end else if (count == div) begin
       count <= 1;
       tone  <= ~tone;
