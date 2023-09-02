@@ -85,7 +85,7 @@ module tt_um_simplepiano (
   assign uo_out[7:1] = 0;
 
   assign uo_out[0] = (ena == 1) ? {note} : 0;
-  assign uio_oe = 8'b1111_0000;
+  assign uio_oe = 8'b0000_0000;
   assign uio_out = 0;
 
 endmodule
