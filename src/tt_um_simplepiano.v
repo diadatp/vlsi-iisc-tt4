@@ -62,6 +62,7 @@ module tt_um_simplepiano (
 
 
   wire note;
+  wire note2;
 
   wire [15:0] div;
 
@@ -82,8 +83,18 @@ module tt_um_simplepiano (
       .tone(note)
   );
 
-  assign uo_out[7:1] = 0;
+  tone_gen #(
+      .WIDTH_COUNTER(16)
+  ) tone_gen_2 (
+      .clk (clk),
+      .rstn(rst_n),
+      .div (div),
+      .tone(note2)
+  );
 
+  assign uo_out[7:2] = 0;
+
+  assign uo_out[1] = (ena == 1) ? {note2} : 0;
   assign uo_out[0] = (ena == 1) ? {note} : 0;
   assign uio_oe = 8'b1111_0000;
   assign uio_out = 0;
