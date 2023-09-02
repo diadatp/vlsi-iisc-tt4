@@ -26,7 +26,7 @@ with open(fname) as vcd_file:
     # print(data)
     # exit()
     # extract the output values ad corresponding timestamps
-    xp = [d[0] * 10e-9 for d in data]
+    xp = [d[0] * 1e-12 for d in data]
     # shift the signals to the range [-1,1]
     fp = [(1 if d[1]== 'b1' else -1) for d in data]
     # print(xp, fp)
@@ -35,7 +35,7 @@ with open(fname) as vcd_file:
     f = interp1d(xp, fp, kind="zero")
     # do the interpolation for 3s
     # TODO bug where we interpolate for longer than we have data for
-    inter = f(np.arange(0, 3, 1/audio_sample_rate))
+    inter = f(np.arange(0, 50, 1/audio_sample_rate))
     # print(inter)
     # exit()
     # write the interpolated values to a wav audio file
