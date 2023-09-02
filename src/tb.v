@@ -2,45 +2,273 @@
 
 module tb ();
 
+  // clock with period #10 = 10*100ns = 1MHz
   initial clk = 1'b0;
   always #5 clk = ~clk;
 
+  // assign IOs to easy to understand names
   reg [11:0] user_keys;
+  reg [ 3:0] octave;
   assign {uio_in[3:0], ui_in} = user_keys;
-  //assign uio_in[7:4] = 4'd4;
-  reg [3:0] octave;
   assign uio_in[7:4] = octave;
 
   integer i;
   integer j;
   initial begin
-    //  assert reset for one clock cycle
+    // set all initial inputs once and
+    // assert reset for one clock cycle
+    ena = 1;
+    user_keys = 12'b0000_0000_0000;
+    octave = 4'b0000;
+
     rst_n = 1'b0;
-    #10 rst_n = 1'b1;
-    
-    user_keys = 12'b1000_0000_0000;
+    #10;
+    rst_n = 1'b1;
 
-    for (i = 0; i < 9; i = i + 1) begin
-      user_keys = 12'b1000_0000_0000;
-      octave = i;
-      for (j = 0; j < 12; j = j + 1) begin
-//        user_keys = user_keys >> 1;
-        #4000;
-        user_keys = user_keys >> 1;
-      end
-    end
+    // // test 1
+    // // cycle through all keys including no keys pressed
+    // // repeat for all octaves
+    // for (i = 0; i < 9; i = i + 1) begin
+    //   octave = i;
 
-    #10 rst_n = 1'b1;
-    #40 #100 user_keys = 12'b1010_0000_0000;
-    #40 #100 user_keys = 12'b0001_0001_0000;
-    // wait for 1000ms
-    #1000000 $finish;
+    //   // no keys pressed
+    //   user_keys = 12'b0000_0000_0000;
+    //   // wait for 500ms
+    //   #500_000_0;
+
+    //   // all keys pressed separately
+    //   for (j = 0; j < 12; j = j + 1) begin
+    //     user_keys = 12'b1000_0000_0000 >> j;
+    //     // wait for 500ms
+    //     #5000000;
+
+    //     $display("hmm");
+    //   end
+    // end
+
+    // // test 2
+    // // all keys pressed
+    // // repeat for all octaves
+    // for (i = 0; i < 9; i = i + 1) begin
+    //   octave = i;
+    //   user_keys = 12'b1111_1111_1111;
+
+    //   // wait for 500ms
+    //   #5000000;
+
+    //   $display("hmm");
+    // end
+
+    // // test 3
+    // // keys and octave pressed randomly
+    // octave = 0;
+    // user_keys = 12'b0000_0001_0000;
+    // #2500000;
+    // octave = 1;
+    // #2500000;
+
+    // octave = 2;
+    // user_keys = 12'b0000_0001_0000;
+    // #2500000;
+    // user_keys = 12'b0000_1001_0000;
+    // #2500000;
+
+    // test 4
+    // rtttl
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 6;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 6;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 6;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 2;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 12;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 11;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 12;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 4;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 12;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 4;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 12;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 4;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 8;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 8;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 9;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 11;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 9;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 9;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 9;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 4;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 12;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 2;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 12;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 6;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 12;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 6;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 12;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 6;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 4;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 4;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 6;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 4;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 6;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 6;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 6;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 2;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 12;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 11;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 12;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 4;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 12;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 4;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 12;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 4;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 8;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 8;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 9;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 11;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 9;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 9;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 9;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 4;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 12;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 2;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 12;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 6;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 12;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 6;
+    #1875000.0;
+    octave = 4;
+    user_keys = 12'b1000_0000_0000 >> 12;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 6;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 4;
+    #1875000.0;
+    octave = 5;
+    user_keys = 12'b1000_0000_0000 >> 4;
+    #1875000.0;
+
+    #100;
+    $finish;
   end
 
   initial begin
-    // $dumpfile("tb.vcd");
-    $dumpvars;
-    // #1;
+    // $dumpvars;
+    $dumpvars(1, uo_out);
   end
 
   // wire up inputs and outputs. Use reg for inputs that will be driven by the testbench.
