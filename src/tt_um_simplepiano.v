@@ -65,11 +65,17 @@ module tt_um_simplepiano (
 
   wire [15:0] div;
 
+  wire [3:0] note_sel;
+  assign note_sel = (uio_in[7] == 0) ? note_decoded : note_rtttl;
+
+  wire [3:0] octave_sel;
+  assign octave_sel = (uio_in[7] == 0) ? uio_in[7:4] : octave_rtttl;
+
   note_lut note_lut_dut (
       .clk(clk),
       .rstn(rst_n),
-      .note(note_decoded),
-      .octave(uio_in[7:4]),
+      .note(note_sel),
+      .octave(octave_sel),
       .div(div)
   );
 
@@ -80,6 +86,19 @@ module tt_um_simplepiano (
       .rstn(rst_n),
       .div (div),
       .tone(note)
+  );
+
+  // used to select between demo and normal piano
+  // uio_in[7]
+
+  wire [3:0] octave_rtttl;
+  wire [3:0] note_rtttl;
+  rtttl_sequencer rtttl_sequencer_dut (
+      .clk(clk),
+      .rstn(rst_n),
+      .start(uio_in[7]),
+      .octave(octave_rtttl),
+      .note(note_rtttl)
   );
 
   assign uo_out[7:1] = 0;

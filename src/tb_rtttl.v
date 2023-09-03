@@ -6,7 +6,7 @@ module tb;
   reg rstn = 0;
   reg start;
   wire [3:0] octave;
-  wire [15:0] note;
+  wire [3:0] note;
 
   rtttl_sequencer rtttl_sequencer_dut (
       .clk(clk),
@@ -26,7 +26,7 @@ module tb;
       start = 1;
       #5000;
       start = 0;
-      #5000000;
+      #50000000;
       $finish;
     end
   end
