@@ -17,7 +17,7 @@ module tt_um_simplepiano (
 
   // octave selection
   wire [3:0] user_octave;
-  assign octave = {1'b0, uio_in[6:4]};
+  assign user_octave = {1'b0, uio_in[6:4]};
 
   // mode selection where piano = 0, demo = 1
   wire mode;
