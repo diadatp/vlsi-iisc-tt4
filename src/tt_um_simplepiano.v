@@ -11,66 +11,57 @@ module tt_um_simplepiano (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-  // localparam SIMULTANEOUS_NOTES = 8;
-
-  // reg note_output;
-
-  // do decoding 12bit user_keys - > 4bit note
-  // and key priority
-
+  // 12 piano keys
   wire [11:0] user_keys;
   assign user_keys = {uio_in[3:0], ui_in};
 
-  reg [3:0] note_decoded;
+  // octave selection
+  wire [3:0] user_octave;
+  assign octave = {1'b0, uio_in[6:4]};
+
+  // mode selection where piano = 0, demo = 1
+  wire mode;
+  assign mode = uio_in[7];
+
+  // priority encoding 12bit user_keys - > 4bit note
+  // special value for no key press
+
+  reg [3:0] note_encoded;
   always @(posedge clk) begin
     casez (user_keys)
-      12'b1???_????_????: note_decoded <= 4'd0;
-      12'b01??_????_????: note_decoded <= 4'd1;
-      12'b001?_????_????: note_decoded <= 4'd2;
-      12'b0001_????_????: note_decoded <= 4'd3;
-      12'b0000_1???_????: note_decoded <= 4'd4;
-      12'b0000_01??_????: note_decoded <= 4'd5;
-      12'b0000_001?_????: note_decoded <= 4'd6;
-      12'b0000_0001_????: note_decoded <= 4'd7;
-      12'b0000_0000_1???: note_decoded <= 4'd8;
-      12'b0000_0000_01??: note_decoded <= 4'd9;
-      12'b0000_0000_001?: note_decoded <= 4'd10;
-      12'b0000_0000_0001: note_decoded <= 4'd11;
-      12'b0000_0000_0000: note_decoded <= 4'b1111;
+      12'b1???_????_????: note_encoded <= 4'd0;
+      12'b01??_????_????: note_encoded <= 4'd1;
+      12'b001?_????_????: note_encoded <= 4'd2;
+      12'b0001_????_????: note_encoded <= 4'd3;
+      12'b0000_1???_????: note_encoded <= 4'd4;
+      12'b0000_01??_????: note_encoded <= 4'd5;
+      12'b0000_001?_????: note_encoded <= 4'd6;
+      12'b0000_0001_????: note_encoded <= 4'd7;
+      12'b0000_0000_1???: note_encoded <= 4'd8;
+      12'b0000_0000_01??: note_encoded <= 4'd9;
+      12'b0000_0000_001?: note_encoded <= 4'd10;
+      12'b0000_0000_0001: note_encoded <= 4'd11;
+      12'b0000_0000_0000: note_encoded <= 4'b1111;
     endcase
   end
 
-  // // 12 nets will form an octave from
-  // // the output of the tone generators
-  // wire [11:0] notes;
-
-  // // 12 notes from the 4th octave, C to B
-  // // notes are calculated wrt A4 at 440Hz
-  // genvar i;
-  // generate
-  //   for (i = 0; i < 12; i = i + 1) begin
-  //     tone_gen #(
-  //         .MAX_COUNT($rtoi(1000000 / (440 * $pow($pow(2, 1.0 / 12), i - 9)))),
-  //         .WIDTH_COUNTER(16)
-  //     ) note (
-  //         .clk (clk),
-  //         .rst (~rst_n),
-  //         .tone(notes[i])
-  //     );
-  //   end
-  // endgenerate
-
-
-  wire note;
-
-  wire [15:0] div;
+  wire [3:0] octave_rtttl;
+  wire [3:0] note_rtttl;
+  rtttl_sequencer rtttl_sequencer_dut (
+      .clk(clk),
+      .rstn(rst_n),
+      .start(mode),
+      .octave(octave_rtttl),
+      .note(note_rtttl)
+  );
 
   wire [3:0] note_sel;
-  assign note_sel = (uio_in[7] == 0) ? note_decoded : note_rtttl;
+  assign note_sel = (mode == 0) ? note_encoded : note_rtttl;
 
   wire [3:0] octave_sel;
-  assign octave_sel = (uio_in[7] == 0) ? uio_in[7:4] : octave_rtttl;
+  assign octave_sel = (mode == 0) ? user_octave : octave_rtttl;
 
+  wire [15:0] div;
   note_lut note_lut_dut (
       .clk(clk),
       .rstn(rst_n),
@@ -79,31 +70,19 @@ module tt_um_simplepiano (
       .div(div)
   );
 
+  wire tone;
   tone_gen #(
       .WIDTH_COUNTER(16)
   ) tone_gen_1 (
       .clk (clk),
       .rstn(rst_n),
       .div (div),
-      .tone(note)
-  );
-
-  // used to select between demo and normal piano
-  // uio_in[7]
-
-  wire [3:0] octave_rtttl;
-  wire [3:0] note_rtttl;
-  rtttl_sequencer rtttl_sequencer_dut (
-      .clk(clk),
-      .rstn(rst_n),
-      .start(uio_in[7]),
-      .octave(octave_rtttl),
-      .note(note_rtttl)
+      .tone(tone)
   );
 
   assign uo_out[7:1] = 0;
 
-  assign uo_out[0] = (ena == 1) ? {note} : 0;
+  assign uo_out[0] = (ena == 1) ? {tone} : 0;
   assign uio_oe = 8'b0000_0000;
   assign uio_out = 0;
 
