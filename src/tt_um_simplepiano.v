@@ -80,7 +80,15 @@ module tt_um_simplepiano (
       .tone(tone)
   );
 
-  assign uo_out[7:1] = 0;
+  reg [5:0] r_led;
+  led_bar i_led_bar (
+      .clk (clk),
+      .rstn(rst_n),
+      .note(note_sel),
+      .led (r_led)
+  );
+
+  assign uo_out[7:1] = {1'b0, r_led};
 
   assign uo_out[0] = (ena == 1) ? {tone} : 0;
   assign uio_oe = 8'b0000_0000;
