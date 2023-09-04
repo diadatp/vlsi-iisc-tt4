@@ -1,3 +1,5 @@
+`default_nettype none
+
 module rtttl_sequencer (
     input clk,
     input rstn,
