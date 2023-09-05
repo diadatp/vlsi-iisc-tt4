@@ -25,7 +25,6 @@ module tt_um_simplepiano (
 
   // priority encoding 12bit user_keys - > 4bit note
   // special value for no key press
-
   reg [3:0] note_encoded;
   always @(posedge clk) begin
     casez (user_keys)
@@ -45,6 +44,7 @@ module tt_um_simplepiano (
     endcase
   end
 
+  // rtttl sequencer outputs series of notes and octaves for two predefined tone sequence
   wire [3:0] octave_rtttl;
   wire [3:0] note_rtttl;
   rtttl_sequencer rtttl_sequencer_dut (
@@ -55,12 +55,16 @@ module tt_um_simplepiano (
       .note(note_rtttl)
   );
 
+  // note_sel gets the value based on mode selection inputs by the user
   wire [3:0] note_sel;
   assign note_sel = (mode == 0) ? note_encoded : note_rtttl;
 
+  // octave_sel gets the value based on mode selection and octave selection inputs by the user
   wire [3:0] octave_sel;
   assign octave_sel = (mode == 0) ? user_octave : octave_rtttl;
 
+  // takes the values of note_sel and octave_sel and uses the look up table
+  // to output the division factor(div) for generation of corresponding frequencies
   wire [15:0] div;
   note_lut note_lut_dut (
       .clk(clk),
@@ -70,6 +74,7 @@ module tt_um_simplepiano (
       .div(div)
   );
 
+  // takes the values of division factor (div) to generate the corresponding frequency in the signal tone
   wire tone;
   tone_gen #(
       .WIDTH_COUNTER(16)
@@ -80,6 +85,7 @@ module tt_um_simplepiano (
       .tone(tone)
   );
 
+  // LED sequence generation based on notes
   reg [6:0] r_led;
   led_bar i_led_bar (
       .clk (clk),
@@ -88,9 +94,10 @@ module tt_um_simplepiano (
       .led (r_led)
   );
 
-  assign uo_out[7:1] = r_led;
+  // output if enable is high
+  assign uo_out[7:1] = (ena == 1) ? r_led : 7'b0000000;
 
-  assign uo_out[0] = (ena == 1) ? {tone} : 0;
+  assign uo_out[0] = (ena == 1) ? tone : 0; 
   assign uio_oe = 8'b0000_0000;
   assign uio_out = 0;
 

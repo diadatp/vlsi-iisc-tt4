@@ -35,12 +35,16 @@ module rtttl_sequencer (
     end
   end
 
-  // TODO better explain the section below
+  // The section below traverses through the addresses to generates rtttl based frequency
+  // Value of note and octave is outputted at fixed intervals(governed by note_counter)
+  // to generate required tone frequencies
+  
   // note_counter is used to track how many 1/64ths
   // of a note each part of the rtttl sentence lasts
+
   reg [5:0] note_counter;
-  reg [15:0] address;
-  reg in_demo;
+  reg [7:0] address;
+  reg in_demo; // variable used to signify that the user is in demo mode
 
   always @(posedge clk) begin
     if (!rstn) begin
