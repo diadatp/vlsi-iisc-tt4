@@ -9,8 +9,10 @@ module led_bar #(
     output reg [BAR_HEIGHT-1:0] led
 );
 
+  // TICK_MAX_COUNT = 1e6/7 to count 1/7 sec using tick_counter
+  // tick_counter is set to 0 at TICK_MAX_COUNT or if the note changes
   reg [3:0] prev_note;
-  localparam TICK_MAX_COUNT = 166667;
+  localparam TICK_MAX_COUNT = 142857; 
   reg [19:0] tick_counter;
   always @(posedge clk) begin
     if (!rstn) begin
