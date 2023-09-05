@@ -88,9 +88,10 @@ module tt_um_simplepiano (
       .led (r_led)
   );
 
-  assign uo_out[7:1] = r_led;
+  // output if enable is high
+  assign uo_out[7:1] = (ena == 1) ? r_led : 7'b0000000;
 
-  assign uo_out[0] = (ena == 1) ? {tone} : 0;
+  assign uo_out[0] = (ena == 1) ? tone : 0; 
   assign uio_oe = 8'b0000_0000;
   assign uio_out = 0;
 
