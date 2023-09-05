@@ -39,7 +39,7 @@ module rtttl_sequencer (
   // note_counter is used to track how many 1/64ths
   // of a note each part of the rtttl sentence lasts
   reg [5:0] note_counter;
-  reg [15:0] address;
+  reg [7:0] address;
   reg in_demo;
 
   always @(posedge clk) begin
