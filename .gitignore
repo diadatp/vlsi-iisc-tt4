@@ -9,4 +9,4 @@ src/__tinytapeout
 src/results.xml
 src/user_config.tcl
 .venv
-a.out
+src/a.out

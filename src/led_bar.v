@@ -1,7 +1,7 @@
 `default_nettype none
 
 module led_bar #(
-    parameter BAR_HEIGHT = 7
+    parameter BAR_HEIGHT = 7 // Seven LEDs assigned for 12 notes
 ) (
     input clk,
     input rstn,
@@ -9,8 +9,10 @@ module led_bar #(
     output reg [BAR_HEIGHT-1:0] led
 );
 
+  // TICK_MAX_COUNT = 1e6/7 to count 1/7 sec using tick_counter
+  // tick_counter is set to 0 at TICK_MAX_COUNT or if the note changes
   reg [3:0] prev_note;
-  localparam TICK_MAX_COUNT = 166667;
+  localparam TICK_MAX_COUNT = 142857; 
   reg [19:0] tick_counter;
   always @(posedge clk) begin
     if (!rstn) begin
@@ -30,6 +32,13 @@ module led_bar #(
   reg [2:0] prev_level;
   reg [2:0] new_level;
 
+// output led governs the sequence of LEDs to be ON
+// new_level is assigned a value from 1 to 7 based on the note
+// prev_level keeps track of the note
+// and is used to implement a new value to output sequence of LEDs
+// for previous level less than new level, the LED sequence is shifted right and 1 is put in MSB
+// for previous level more than new level, the LED sequence is shifted left and 0 is put in LSB
+// the shift in led sequence happens only after tick_counter reaches TICK_MAX_COUNT
   always @(posedge clk) begin
     if (!rstn) begin
       led <= 0;
