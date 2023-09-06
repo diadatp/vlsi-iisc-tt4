@@ -28,21 +28,25 @@ module tt_um_simplepiano (
 
   reg [3:0] note_encoded;
   always @(posedge clk) begin
-    casez (user_keys)
-      12'b1???_????_????: note_encoded <= 4'd0;
-      12'b01??_????_????: note_encoded <= 4'd1;
-      12'b001?_????_????: note_encoded <= 4'd2;
-      12'b0001_????_????: note_encoded <= 4'd3;
-      12'b0000_1???_????: note_encoded <= 4'd4;
-      12'b0000_01??_????: note_encoded <= 4'd5;
-      12'b0000_001?_????: note_encoded <= 4'd6;
-      12'b0000_0001_????: note_encoded <= 4'd7;
-      12'b0000_0000_1???: note_encoded <= 4'd8;
-      12'b0000_0000_01??: note_encoded <= 4'd9;
-      12'b0000_0000_001?: note_encoded <= 4'd10;
-      12'b0000_0000_0001: note_encoded <= 4'd11;
-      12'b0000_0000_0000: note_encoded <= 4'b1111;
-    endcase
+    if (!rst_n) begin
+      note_encoded <= 4'b1111;
+    end else begin
+      casez (user_keys)
+        12'b1???_????_????: note_encoded <= 4'd0;
+        12'b01??_????_????: note_encoded <= 4'd1;
+        12'b001?_????_????: note_encoded <= 4'd2;
+        12'b0001_????_????: note_encoded <= 4'd3;
+        12'b0000_1???_????: note_encoded <= 4'd4;
+        12'b0000_01??_????: note_encoded <= 4'd5;
+        12'b0000_001?_????: note_encoded <= 4'd6;
+        12'b0000_0001_????: note_encoded <= 4'd7;
+        12'b0000_0000_1???: note_encoded <= 4'd8;
+        12'b0000_0000_01??: note_encoded <= 4'd9;
+        12'b0000_0000_001?: note_encoded <= 4'd10;
+        12'b0000_0000_0001: note_encoded <= 4'd11;
+        12'b0000_0000_0000: note_encoded <= 4'b1111;
+      endcase
+    end
   end
 
   wire [3:0] octave_rtttl;
