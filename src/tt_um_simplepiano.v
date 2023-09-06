@@ -57,12 +57,14 @@ module tt_um_simplepiano (
     end
   end
 
-  // rtttl sequencer outputs series of notes and octaves for two predefined tone sequence
+  // rtttl sequencer outputs series of notes and octaves
+  // for two predefined tone sequence
   wire [3:0] octave_rtttl;
   wire [3:0] note_rtttl;
   rtttl_sequencer rtttl_sequencer_dut (
       .clk(clk),
       .rstn(rst_n),
+      .demo(user_keys[11:10]),
       .start(mode),
       .octave(octave_rtttl),
       .note(note_rtttl)
@@ -110,7 +112,7 @@ module tt_um_simplepiano (
   // output if enable is high
   assign uo_out[7:1] = (ena == 1) ? r_led : 7'b0000000;
 
-  assign uo_out[0] = (ena == 1) ? tone : 0; 
+  assign uo_out[0] = (ena == 1) ? tone : 0;
   assign uio_oe = 8'b0000_0000;
   assign uio_out = 0;
 
