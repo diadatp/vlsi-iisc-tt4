@@ -12,10 +12,18 @@ module tt_um_simplepiano (
 );
 
   // 12 piano keys
+  // The sequence of notes corresponding to
+  // user_keys[11] down to user_keys[0] is as follows:
+  // C C# D D# E F F# G G# A A# B 
   wire [11:0] user_keys;
   assign user_keys = {uio_in[3:0], ui_in};
 
-  // octave selection
+  // octave selection from 0 to 7
+  // The octave is a four bit number of which
+  // only the bottom three bits are used.
+  // The number 4'b0000 corresponds to
+  // the octave starting at C0 and the number
+  // 4'b0111 corresponds to the octave starting at C7.
   wire [3:0] user_octave;
   assign user_octave = {1'b0, uio_in[6:4]};
 
@@ -24,7 +32,8 @@ module tt_um_simplepiano (
   assign mode = uio_in[7];
 
   // priority encoding 12bit user_keys - > 4bit note
-  // special value for no key press
+  // We use a special value of "4'b1111" to communicate
+  // to note_lut that a tone shouldn't be produced.
   reg [3:0] note_encoded;
   always @(posedge clk) begin
     if (!rst_n) begin
