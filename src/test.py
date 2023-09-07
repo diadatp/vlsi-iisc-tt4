@@ -26,4 +26,8 @@ async def test_single_key(dut):
     for note in range(8):
       dut.ui_in.value = 1 << note
       await ClockCycles(dut.clk, 10000)
-      
+    
+    for note in range(4):
+      dut.uio_in.value = (dut.uio_in.value & 0xf0) | 1 << note
+      await ClockCycles(dut.clk, 10000)
+
