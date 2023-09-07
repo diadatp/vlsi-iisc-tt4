@@ -67,6 +67,7 @@ module tt_um_simplepiano (
   rtttl_sequencer rtttl_sequencer_dut (
       .clk(clk),
       .rstn(rst_n),
+      .demo(user_keys[11:10]),
       .start(mode),
       .octave(octave_rtttl),
       .note(note_rtttl)
@@ -108,7 +109,7 @@ module tt_um_simplepiano (
   // LED sequence generation based on notes
   // Uses the current note to drive an LED
   // bar graph visualization.
-  reg [6:0] r_led;
+  wire [6:0] r_led;
   led_bar i_led_bar (
       .clk (clk),
       .rstn(rst_n),
