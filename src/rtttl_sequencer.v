@@ -14,7 +14,7 @@ module rtttl_sequencer (
   // calculate the counter value at which one sixty fourth of a note's
   // worth of time has passed.
   // localparam integer SIXF_MAX_COUNT = (1e6 / (BPM * 64 / 4 / 60));
-  localparam SIXF_MAX_COUNT = 23810;
+  localparam SIXF_MAX_COUNT = 23438;
 
   reg [15:0] sixf_counter;
 
@@ -453,43 +453,43 @@ module rtttl_sequencer (
           end else begin
             case (address)
               0: begin
-                note_counter <= 16;
+                note_counter <= 4;
                 octave <= 4;
                 note <= 7;
                 address <= address + 1;
               end
               1: begin
-                note_counter <= 16;
+                note_counter <= 4;
                 octave <= 4;
                 note <= 9;
                 address <= address + 1;
               end
               2: begin
-                note_counter <= 16;
+                note_counter <= 4;
                 octave <= 4;
                 note <= 11;
                 address <= address + 1;
               end
               3: begin
-                note_counter <= 16;
+                note_counter <= 4;
                 octave <= 6;
                 note <= 0;
                 address <= address + 1;
               end
               4: begin
-                note_counter <= 16;
+                note_counter <= 4;
                 octave <= 6;
                 note <= 2;
                 address <= address + 1;
               end
               5: begin
-                note_counter <= 16;
+                note_counter <= 4;
                 octave <= 6;
                 note <= 4;
                 address <= address + 1;
               end
               6: begin
-                note_counter <= 16;
+                note_counter <= 4;
                 octave <= 6;
                 note <= 5;
                 address <= address + 1;
@@ -657,49 +657,49 @@ module rtttl_sequencer (
                 address <= address + 1;
               end
               34: begin
-                note_counter <= 16;
+                note_counter <= 4;
                 octave <= 4;
                 note <= 5;
                 address <= address + 1;
               end
               35: begin
-                note_counter <= 16;
+                note_counter <= 4;
                 octave <= 4;
                 note <= 7;
                 address <= address + 1;
               end
               36: begin
-                note_counter <= 16;
+                note_counter <= 4;
                 octave <= 4;
                 note <= 9;
                 address <= address + 1;
               end
               37: begin
-                note_counter <= 16;
+                note_counter <= 4;
                 octave <= 4;
                 note <= 11;
                 address <= address + 1;
               end
               38: begin
-                note_counter <= 16;
+                note_counter <= 4;
                 octave <= 6;
                 note <= 0;
                 address <= address + 1;
               end
               39: begin
-                note_counter <= 16;
+                note_counter <= 4;
                 octave <= 6;
                 note <= 2;
                 address <= address + 1;
               end
               40: begin
-                note_counter <= 16;
+                note_counter <= 4;
                 octave <= 6;
                 note <= 4;
                 address <= address + 1;
               end
               41: begin
-                note_counter <= 16;
+                note_counter <= 4;
                 octave <= 6;
                 note <= 5;
                 address <= address + 1;
@@ -849,7 +849,7 @@ module rtttl_sequencer (
                 address <= address + 1;
               end
               66: begin
-                note_counter <= 4;
+                note_counter <= 16;
                 octave <= 6;
                 note <= 0;
                 address <= address + 1;
