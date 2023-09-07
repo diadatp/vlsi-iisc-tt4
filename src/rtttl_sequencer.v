@@ -52,6 +52,7 @@ module rtttl_sequencer (
     if (!rstn) begin
       address <= 0;
       note_counter <= 0;
+      note <= 4'b1111;
       in_demo <= 0;
       which_demo <= 0;
     end else begin
