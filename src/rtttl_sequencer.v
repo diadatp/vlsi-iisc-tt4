@@ -56,8 +56,12 @@ module rtttl_sequencer (
       in_demo <= 0;
       which_demo <= 0;
     end else begin
-      if (start) begin
+      if ((start == 1) && ((demo == 2'b10) || (demo == 2'b01))) begin
         in_demo <= 1;
+        if (which_demo != (demo == 2'b10 ? 1 : 0)) begin
+          address <= 0;
+          note_counter <= 0;
+        end
         which_demo <= demo == 2'b10 ? 1 : 0;
       end
       if ((in_demo == 1) && (sixf_counter == SIXF_MAX_COUNT)) begin
