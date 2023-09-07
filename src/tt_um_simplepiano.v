@@ -101,7 +101,7 @@ module tt_um_simplepiano (
   );
 
   // LED sequence generation based on notes
-  reg [6:0] r_led;
+  wire [6:0] r_led;
   led_bar i_led_bar (
       .clk (clk),
       .rstn(rst_n),
