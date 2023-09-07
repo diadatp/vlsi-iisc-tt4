@@ -2,45 +2,88 @@
 
 module tb ();
 
+  // clock with period #10 = 10*100ns = 1MHz
   initial clk = 1'b0;
   always #5 clk = ~clk;
 
+  // easy to understand names for IOs
   reg [11:0] user_keys;
+  reg [ 2:0] octave;
+  reg [ 0:0] mode;
+
   assign {uio_in[3:0], ui_in} = user_keys;
-  //assign uio_in[7:4] = 4'd4;
-  reg [3:0] octave;
-  assign uio_in[7:4] = octave;
+  assign uio_in[6:4] = octave;
+  assign uio_in[7] = mode;
 
   integer i;
   integer j;
   initial begin
-    //  assert reset for one clock cycle
-    rst_n = 1'b0;
-    #10 rst_n = 1'b1;
-    
-    user_keys = 12'b1000_0000_0000;
+    // set all initial inputs once and
+    // assert reset for one clock cycle
+    ena = 1;
+    user_keys = 12'b0000_0000_0000;
+    octave = 3'b000;
+    mode = 0;
 
+    rst_n = 1'b0;
+    #10;
+    rst_n = 1'b1;
+
+    // test 1
+    // cycle through all keys including no keys pressed
+    // repeat for all octaves
     for (i = 0; i < 9; i = i + 1) begin
-      user_keys = 12'b1000_0000_0000;
       octave = i;
+
+      // no keys pressed
+      user_keys = 12'b0000_0000_0000;
+      // wait for 500ms
+      #500_000_0;
+
+      // all keys pressed separately
       for (j = 0; j < 12; j = j + 1) begin
-//        user_keys = user_keys >> 1;
-        #4000;
-        user_keys = user_keys >> 1;
+        user_keys = 12'b1000_0000_0000 >> j;
+        // wait for 500ms
+        #5000000;
       end
     end
 
-    #10 rst_n = 1'b1;
-    #40 #100 user_keys = 12'b1010_0000_0000;
-    #40 #100 user_keys = 12'b0001_0001_0000;
-    // wait for 1000ms
-    #1000000 $finish;
+    // // test 2
+    // // all keys pressed
+    // // repeat for all octaves
+    // for (i = 0; i < 9; i = i + 1) begin
+    //   octave = i;
+    //   user_keys = 12'b1111_1111_1111;
+
+    //   // wait for 500ms
+    //   #5000000;
+
+    //   $display("hmm");
+    // end
+
+    // // test 3
+    // // keys and octave pressed randomly
+    // octave = 0;
+    // user_keys = 12'b0000_0001_0000;
+    // #2500000;
+    // octave = 1;
+    // #2500000;
+
+    // octave = 2;
+    // user_keys = 12'b0000_0001_0000;
+    // #2500000;
+    // user_keys = 12'b0000_1001_0000;
+    // #2500000;
+
+    #100;
+    $finish;
   end
 
   initial begin
-    // $dumpfile("tb.vcd");
-    $dumpvars;
-    // #1;
+    $dumpfile("tb.vcd");
+    $dumpvars(0, tb);
+    // $dumpvars;
+    // $dumpvars(1, uo_out);
   end
 
   // wire up inputs and outputs. Use reg for inputs that will be driven by the testbench.
